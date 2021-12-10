@@ -19,6 +19,7 @@ const TWITCH_BOT_ACCESS_TOKEN = process.env.TWITCH_BOT_ACCESS_TOKEN;
 const TWITCH_BOT_JWT = process.env.TWITCH_BOT_JWT;
 const PROFILE_API_URL = process.env.PROFILE_API_URL;
 const BATTLE_API_URL = process.env.BATTLE_API_URL;
+const BOT_CONFIG_API_URL = process.env.BOT_CONFIG_API_URL;
 const refreshUrl = "https://deusprogrammer.com/util/twitch/registration/refresh";
 
 let router = express.Router();
@@ -163,7 +164,8 @@ const createBotContainer = async (userId, containerName) => {
             `TWITCH_BOT_PASS=${TWITCH_BOT_PASS}`,
             `TWITCH_BOT_CLIENT_ID=${TWITCH_BOT_CLIENT_ID}`,
             `PROFILE_API_URL=${PROFILE_API_URL}`,
-            `BATTLE_API_URL=${BATTLE_API_URL}`
+            `BATTLE_API_URL=${BATTLE_API_URL}`,
+            `BOT_CONFIG_API_URL=${BOT_CONFIG_API_URL}`
         ]
     });
 
