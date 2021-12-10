@@ -82,16 +82,6 @@ const getAccessToken = async (code) => {
     }
 }
 
-const refreshAccessToken = async (code) => {
-    try {
-        let res = await axios.post(`https://id.twitch.tv/oauth2/token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}&grant_type=authorization_code&redirect_uri=${refreshUrl}`);
-        return res.data;
-    } catch (error) {
-        console.error("Call to get access token failed! " + error.message);
-        throw error;
-    }
-}
-
 const validateAccessToken = async (accessToken) => {
     let res = await axios.get(`https://id.twitch.tv/oauth2/validate`, {
         headers: {
