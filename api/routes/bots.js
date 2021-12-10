@@ -502,6 +502,7 @@ router.route("/:id/raid-config")
 router.route("/:id/bot-user")
     .post(async (request, response) => {
         let twitchUser = getAuthenticatedTwitchUserId(request);
+        console.log("TWITCH USER: " + twitchUser + " vs " + request.params.id);
         if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_ADMIN")) {
             response.status(403);
             return response.send("Insufficient privileges");
