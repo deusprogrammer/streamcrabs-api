@@ -20,7 +20,6 @@ const TWITCH_BOT_JWT = process.env.TWITCH_BOT_JWT;
 const PROFILE_API_URL = process.env.PROFILE_API_URL;
 const BATTLE_API_URL = process.env.BATTLE_API_URL;
 const BOT_CONFIG_API_URL = process.env.BOT_CONFIG_API_URL;
-const refreshUrl = "https://deusprogrammer.com/util/twitch/registration/refresh";
 
 let router = express.Router();
 
@@ -156,6 +155,8 @@ const createBotContainer = async (userId, containerName) => {
     let res = await axios.post(url, {
         Image: "mmain/cbd-bot:latest",
         Env: [
+            `TWITCH_CLIENT_ID=${clientId}`,
+            `TWITCH_CLIENT_SECRET=${clientSecret}`,
             `TWITCH_EXT_CHANNEL_ID=${userId}`,
             `TWITCH_EXT_CLIENT_ID=${TWITCH_EXT_CLIENT_ID}`,
             `TWITCH_BOT_ACCESS_TOKEN=${TWITCH_BOT_ACCESS_TOKEN}`,
