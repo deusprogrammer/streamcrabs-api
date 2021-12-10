@@ -92,22 +92,6 @@ const refreshAccessToken = async (code) => {
     }
 }
 
-const getProfile = async (accessToken) => {
-    try {
-        let res = await axios.get(`https://api.twitch.tv/helix/users`, {
-            headers: {
-                "Authorization": `Bearer ${accessToken}`,
-                "Client-Id": clientId
-            }
-        });
-
-        return res.data;
-    } catch (error) {
-        console.error("Call to get profile failed! " + error.message);
-        throw error;
-    }
-}
-
 const validateAccessToken = async (accessToken) => {
     let res = await axios.get(`https://id.twitch.tv/oauth2/validate`, {
         headers: {
