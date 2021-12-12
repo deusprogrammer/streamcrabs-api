@@ -508,46 +508,44 @@ router.route("/:id/raid-config")
         }
     });
 
-router.route("/:id/bot-user")
-    .post(async (request, response) => {
+router.route("/:id/commands")
+    .put(async (request, response) => {
         let twitchUser = getAuthenticatedTwitchUserId(request);
-        console.log("TWITCH USER: " + twitchUser + " vs " + request.params.id);
         if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_ADMIN")) {
             response.status(403);
             return response.send("Insufficient privileges");
         }
 
         try {
-            // Get access token.
-            let accessTokenRes = await getAccessToken(request.body.twitchAuthCode);
-
-            // Get user profile.
-            let userRes = await getProfile(accessTokenRes.access_token);
-            let profile = userRes.data[0];
-
-            // Create body
-            let twitchUser = profile.login;
-            let twitchId = parseInt(profile.id);
-            let accessToken = accessTokenRes.access_token;
-            let refreshToken = accessTokenRes.refresh_token;
-
-            let bot = await Bots.findOne({twitchChannelId: request.params.id}).exec();
-
-            bot.botUser = {
-                twitchUser,
-                twitchId,
-                accessToken,
-                refreshToken
-            };
-
+            let bot = await Bots.findOne({twitchChannelId: request.params.id});
+            bot.commands = request.body;
             bot.save();
-            
-            return response.json(bot);
+            return response.send();
         } catch (error) {
             console.error(error);
             response.status(500);
             return response.send(error);
         }
-    })
+    });
+
+router.route("/:id/alerts")
+    .put(async (request, response) => {
+        let twitchUser = getAuthenticatedTwitchUserId(request);
+        if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_ADMIN")) {
+            response.status(403);
+            return response.send("Insufficient privileges");
+        }
+
+        try {
+            let bot = await Bots.findOne({twitchChannelId: request.params.id});
+            bot.alertConfigs = request.body;
+            bot.save();
+            return response.send();
+        } catch (error) {
+            console.error(error);
+            response.status(500);
+            return response.send(error);
+        }
+    });
 
 module.exports = router;

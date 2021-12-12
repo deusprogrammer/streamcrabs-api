@@ -126,8 +126,7 @@ let botSchema = new mongoose.Schema({
     audioPool: {
         type: [audioElementSchema],
         default: []
-    },
-    botUser: botUserSchema
+    }
 })
 
 module.exports = mongoose.model("bots", botSchema)
