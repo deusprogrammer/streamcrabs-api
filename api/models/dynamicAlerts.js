@@ -25,4 +25,4 @@ const raidSchema = new mongoose.Schema({
     leavingSound: soundSchema
 });
 
-module.exports = mongoose.model("raidConfigs", raidSchema);
+module.exports = mongoose.model("dynamicalerts", raidSchema);

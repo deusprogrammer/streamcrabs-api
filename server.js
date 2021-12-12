@@ -5,7 +5,7 @@ import passport from 'passport';
 
 const botRoutes = require('./api/routes/bots');
 const configsRoutes = require('./api/routes/configs');
-const raidConfigRoutes = require('./api/routes/raidConfigs');
+const dynamicAlertsRoutes = require('./api/routes/dynamicAlerts');
 
 import {jwtAuthStrategy} from './api/config/passportConfig';
 
@@ -47,7 +47,7 @@ app.use((req, res, next) => {
  */
 app.use('/bots', passport.authenticate("jwt", { session: false }), botRoutes);
 app.use('/configs', passport.authenticate("jwt", { session: false }), configsRoutes);
-app.use('/raid-configs', passport.authenticate("jwt", { session: false }), raidConfigRoutes);
+app.use('/dynamic-alerts', passport.authenticate("jwt", { session: false }), dynamicAlertsRoutes);
 
 app.listen(port);
-console.log('CBD RESTful API server started on: ' + port);
+console.log('Streamcrabs RESTful API server started on: ' + port);
