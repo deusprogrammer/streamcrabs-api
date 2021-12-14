@@ -62,7 +62,7 @@ const createTrinaryUser = async (username, userId) => {
         }, {
             headers: {
                 contentType: "application/json",
-                Authorization: `Bearer ${BATTLE_BOT_JWT}`
+                Authorization: `Bearer ${TWITCH_BOT_JWT}`
             }
         });
     } catch (error) {
