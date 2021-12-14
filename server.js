@@ -6,6 +6,7 @@ import passport from 'passport';
 const botRoutes = require('./api/routes/bots');
 const configsRoutes = require('./api/routes/configs');
 const dynamicAlertsRoutes = require('./api/routes/dynamicAlerts');
+const wsAuthRoutes = require('./api/routes/wsAuth');
 
 import {jwtAuthStrategy} from './api/config/passportConfig';
 
@@ -48,6 +49,7 @@ app.use((req, res, next) => {
 app.use('/bots', passport.authenticate("jwt", { session: false }), botRoutes);
 app.use('/configs', passport.authenticate("jwt", { session: false }), configsRoutes);
 app.use('/dynamic-alerts', passport.authenticate("jwt", { session: false }), dynamicAlertsRoutes);
+app.use('/auth/ws', passport.authenticate("jwt", { session: false }), wsAuthRoutes);
 
 app.listen(port);
 console.log('Streamcrabs RESTful API server started on: ' + port);

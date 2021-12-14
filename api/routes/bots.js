@@ -4,10 +4,9 @@ const Bots = require('../models/bots');
 const axios = require('axios');
 const Configs = require('../models/configs');
 
-const BATTLE_BOT_JWT = process.env.BATTLE_BOT_JWT;
-const redirectUrl = "https://deusprogrammer.com/streamcrabs/registration/callback";
-
 import {authenticatedUserHasRole, getAuthenticatedTwitchUserId} from '../utils/SecurityHelper';
+
+const redirectUrl = "https://deusprogrammer.com/streamcrabs/registration/callback";
 
 const clientId = process.env.TWITCH_CLIENT_ID;
 const clientSecret = process.env.TWITCH_CLIENT_SECRET;
