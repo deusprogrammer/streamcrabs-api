@@ -5,7 +5,7 @@ const axios = require('axios');
 const Configs = require('../models/configs');
 
 const BATTLE_BOT_JWT = process.env.BATTLE_BOT_JWT;
-const redirectUrl = "https://deusprogrammer.com/util/twitch/registration/callback";
+const redirectUrl = "https://deusprogrammer.com/streamcrabs/registration/callback";
 
 import {authenticatedUserHasRole, getAuthenticatedTwitchUserId} from '../utils/SecurityHelper';
 
