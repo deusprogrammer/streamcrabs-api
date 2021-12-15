@@ -20,6 +20,9 @@ const PROFILE_API_URL = process.env.PROFILE_API_URL;
 const BATTLE_API_URL = process.env.BATTLE_API_URL;
 const BOT_CONFIG_API_URL = process.env.BOT_CONFIG_API_URL;
 
+const HOOK_WS_URL = process.env.HOOK_WS_URL;
+const BOT_WS_URL = process.env.BOT_WS_URL;
+
 let router = express.Router();
 
 const randomUuid = () => {
@@ -165,7 +168,9 @@ const createBotContainer = async (userId, containerName) => {
             `TWITCH_BOT_CLIENT_ID=${TWITCH_BOT_CLIENT_ID}`,
             `PROFILE_API_URL=${PROFILE_API_URL}`,
             `BATTLE_API_URL=${BATTLE_API_URL}`,
-            `BOT_CONFIG_API_URL=${BOT_CONFIG_API_URL}`
+            `BOT_CONFIG_API_URL=${BOT_CONFIG_API_URL}`,
+            `HOOK_WS_URL=${HOOK_WS_URL}`,
+            `BOT_WS_URL=${BOT_WS_URL}`
         ]
     });
 
