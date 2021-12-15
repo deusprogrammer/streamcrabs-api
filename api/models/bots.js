@@ -103,21 +103,54 @@ let botSchema = new mongoose.Schema({
     config: {
         type: Map,
         default: {
-            "cbd": true,
-            "requests": false,
-            "raid": false,
-            "rewards": false
+            cbd: true,
+            requests: false,
+            raid: false,
+            rewards: false
         }
     },
     commands: {
         type: Map,
-        of: commandSchema
+        of: commandSchema,
+        default: {}
     },
     alertConfigs: {
-        subAlert: alertConfigSchema,
-        raidAlert: alertConfigSchema,
-        cheerAlert: alertConfigSchema,
-        followAlert: alertConfigSchema
+        subAlert: {
+            type: alertConfigSchema,
+            default: {
+                enabled: false,
+                type: "VIDEO",
+                id: null,
+                messageTemplate: null
+            }
+        },
+        raidAlert: {
+            type: alertConfigSchema,
+            default: {
+                enabled: false,
+                type: "VIDEO",
+                id: null,
+                messageTemplate: null
+            }
+        },
+        cheerAlert: {
+            type: alertConfigSchema,
+            default: {
+                enabled: false,
+                type: "VIDEO",
+                id: null,
+                messageTemplate: null
+            }
+        },
+        followAlert: {
+            type: alertConfigSchema,
+            default: {
+                enabled: false,
+                type: "VIDEO",
+                id: null,
+                messageTemplate: null
+            }
+        }
     },
     videoPool: {
         type: [videoElementSchema],
