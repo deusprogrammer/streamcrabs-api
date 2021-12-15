@@ -35,3 +35,5 @@ router.route("/")
 
         return response.json(jwt);
     });
+
+module.exports = router;
