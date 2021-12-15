@@ -305,7 +305,7 @@ router.route("/:id")
 router.route("/:id/config")
     .get(async (request, response) => {
         let twitchUser = getAuthenticatedTwitchUserId(request);
-        if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_BOT")) {
+        if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_BOT") && !authenticatedUserHasRole(request, "TWITCH_ADMIN")) {
             response.status(403);
             return response.send("Insufficient privileges");
         }
