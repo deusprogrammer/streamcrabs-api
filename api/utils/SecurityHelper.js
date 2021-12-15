@@ -1,4 +1,5 @@
 export let getAuthenticatedTwitchUserName = (request) => {
+    console.log("USER: " + JSON.stringify(request.user, null, 5));
     if (request.user && request.user.connected && request.user.connected.twitch) {
         return request.user.connected.twitch.name;
     }
@@ -7,6 +8,7 @@ export let getAuthenticatedTwitchUserName = (request) => {
 }
 
 export let getAuthenticatedTwitchUserId = (request) => {
+    console.log("USER: " + JSON.stringify(request.user, null, 5));
     if (request.user && request.user.connected && request.user.connected.twitch) {
         return request.user.connected.twitch.userId;
     }
@@ -23,7 +25,7 @@ export let authenticatedUserHasRole = (request, role) => {
 }
 
 export let authenticatedUserHasAccessToChannel = (request, channelId) => {
-    console.log("USER: " + JSON.stringify(request.user));
+    console.log("USER: " + JSON.stringify(request.user, null, 5));
     console.log("CHANNEL ID: " + channelId);
     if (request.user && request.user.connected && request.user.connected.twitch && request.user.connected.twitch.channels) {
         return request.user.connected.twitch.channels.includes(channelId.toString());
