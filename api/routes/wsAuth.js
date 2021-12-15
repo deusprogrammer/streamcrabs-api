@@ -34,7 +34,7 @@ router.route("/")
 
         let jwt = createJwt(userId, login, request.body.channel, defaultSecret);
 
-        return response.json(jwt);
+        return response.json({jwt});
     });
 
 module.exports = router;
