@@ -1,4 +1,5 @@
 const express = require('express');
+const jsonwebtoken = require('jsonwebtoken');
 
 import {getAuthenticatedTwitchUserId, getAuthenticatedTwitchUserName} from '../utils/SecurityHelper';
 
