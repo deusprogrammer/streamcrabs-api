@@ -32,6 +32,9 @@ router.route("/")
         let login = getAuthenticatedTwitchUserName(request);
         let userId = getAuthenticatedTwitchUserId(request);
 
+        console.log("LOGIN:  " + login);
+        console.log("USERID: " + userId);
+
         let jwt = createJwt(userId, login, request.body.channel, defaultSecret);
 
         return response.json({jwt});
