@@ -259,12 +259,16 @@ router.route("/:id")
             } catch (error) {
                 console.error("STALE ACCESS TOKEN");
                 // Refresh token on failure to validate
-                let refresh = await refreshAccessToken(bot.refreshToken);
-                bot.accessToken = refresh.access_token;
-                bot.refreshToken = refresh.refresh_token;
-                await Bots.findByIdAndUpdate(bot._id, bot);
-                
-                console.log("REFRESHED TOKEN SUCCESSFULLY");
+                try {
+                    let refresh = await refreshAccessToken(bot.refreshToken);
+                    bot.accessToken = refresh.access_token;
+                    bot.refreshToken = refresh.refresh_token;
+                    await Bots.findByIdAndUpdate(bot._id, bot);
+                    
+                    console.log("REFRESHED TOKEN SUCCESSFULLY");
+                } catch (e) {
+                    console.error("Unable to refresh auth token: " + e);
+                }
             }
             
             return response.json(bot);
