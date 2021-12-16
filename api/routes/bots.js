@@ -351,7 +351,7 @@ router.route("/:id/token")
     .put(async (request, response) => {
         try {
             // Get access token.
-            let accessTokenRes = await refreshAccessToken(request.body.twitchAuthCode);
+            let accessTokenRes = await getAccessToken(request.body.twitchAuthCode);
 
             // Get user profile.
             let userRes = await getProfile(accessTokenRes.access_token);
