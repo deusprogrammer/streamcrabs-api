@@ -62,7 +62,7 @@ let alertConfigSchema = new mongoose.Schema({
     id: String,
     soundId: {
         type: String,
-        default: "default"
+        default: null
     },
     panel: {
         type: String,
@@ -80,7 +80,7 @@ let redemptionSchema = new mongoose.Schema({
     id: String,
     soundId: {
         type: String,
-        default: "default"
+        default: null
     },
     panel: {
         type: String,
