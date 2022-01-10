@@ -106,6 +106,16 @@ const refreshAccessToken = async (refreshToken) => {
     return res.data;
 }
 
+const revokeAccessToken = async (accessToken) => {
+    var params = new URLSearchParams();
+    params.append('refresh_token',encodeURIComponent(accessToken));
+    params.append('client_id', clientId);
+
+    let res = await axios.post('https://id.twitch.tv/oauth2/revoke', params, {responseType: "json"});
+
+    return res.data;
+}
+
 const getContainer = async (containerName) => {
     let res = await axios.get(`http://10.0.0.243:2375/containers/${containerName}/json`);
 
@@ -407,6 +417,39 @@ router.route("/:id/token")
             });
         }
     })
+    .delete(async (request, response) => {
+        try {
+            if (request.params.id !== "*") {
+                if (getAuthenticatedTwitchUserId(request) !== request.params.id) {
+                    response.status(403);
+                    return response.send("Invalid user");
+                }
+                let bot = await Bots.findOne({twitchChannelId: request.params.id}).exec();
+                bot.accessToken = "";
+                bot.refreshToken = "";
+                bot.save();
+            } else {
+                if (!authenticatedUserHasRole(request, "TWITCH_ADMIN")) {
+                    response.status(403);
+                    return response.send("Only admins can revoke all access tokens.");
+                }
+
+                let bots = await Bots.find({}, null).exec();
+                bots.forEach((bot) => {
+                    bot.accessToken = "";
+                    bot.refreshToken = "";
+                    bot.save();
+                });
+            }
+
+            response.status(204);
+            return response.send();
+        } catch (error) {
+            console.error(error);
+            response.status(500);
+            return response.send(error);
+        }
+    });
 
 router.route("/:id/state")
     .get(async (request, response) => {
@@ -485,28 +528,9 @@ router.route("/:id/media/:pool")
                 bot.videoPool = request.body;
             } else if (request.params.pool === "audio") {
                 bot.audioPool = request.body;
+            } else if (request.params.pool === "image") {
+                bot.imagePool = request.body;
             }
-            await Bots.updateOne({twitchChannelId: request.params.id}, bot);
-            return response.json(bot);
-        } catch (error) {
-            console.error(error);
-            response.status(500);
-            return response.send(error);
-        }
-    })
-
-router.route("/:id/raid-config")
-    .put(async (request, response) => {
-        let twitchUser = getAuthenticatedTwitchUserId(request);
-        if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_ADMIN")) {
-            console.error("USER DOESN'T OWN CHANNEL OR HAVE ADMIN PRIVILEGES");
-            response.status(403);
-            return response.send("Insufficient privileges");
-        }
-
-        try {
-            let bot = await Bots.findOne({twitchChannelId: request.params.id});
-            bot.raidConfig = request.body;
             await Bots.updateOne({twitchChannelId: request.params.id}, bot);
             return response.json(bot);
         } catch (error) {
@@ -527,6 +551,26 @@ router.route("/:id/commands")
         try {
             let bot = await Bots.findOne({twitchChannelId: request.params.id});
             bot.commands = request.body;
+            bot.save();
+            return response.send();
+        } catch (error) {
+            console.error(error);
+            response.status(500);
+            return response.send(error);
+        }
+    });
+
+router.route("/:id/redemptions")
+    .put(async (request, response) => {
+        let twitchUser = getAuthenticatedTwitchUserId(request);
+        if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_ADMIN")) {
+            response.status(403);
+            return response.send("Insufficient privileges");
+        }
+
+        try {
+            let bot = await Bots.findOne({twitchChannelId: request.params.id});
+            bot.redemptions = request.body;
             bot.save();
             return response.send();
         } catch (error) {

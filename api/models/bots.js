@@ -46,6 +46,11 @@ let audioElementSchema = new mongoose.Schema({
     }
 });
 
+let imageElementSchema = new mongoose.Schema({
+    url: String,
+    name: String
+});
+
 let alertConfigSchema = new mongoose.Schema({
     enabled: {
         type: Boolean,
@@ -54,7 +59,33 @@ let alertConfigSchema = new mongoose.Schema({
     type: String,
     name: String,
     messageTemplate: String,
-    id: String
+    id: String,
+    soundId: {
+        type: String,
+        default: "default"
+    },
+    panel: {
+        type: String,
+        default: "default"
+    }
+});
+
+let redemptionSchema = new mongoose.Schema({
+    enabled: {
+        type: Boolean,
+        default: false
+    },
+    name: String,
+    messageTemplate: String,
+    id: String,
+    soundId: {
+        type: String,
+        default: "default"
+    },
+    panel: {
+        type: String,
+        default: "default"
+    }
 });
 
 let commandSchema = new mongoose.Schema({
@@ -62,13 +93,6 @@ let commandSchema = new mongoose.Schema({
     type: String,
     target: String
 });
-
-let botUserSchema = new mongoose.Schema({
-    twitchUser: String,
-    twitchId: Number,
-    accessToken: String,
-    refreshToken: String
-})
 
 let botSchema = new mongoose.Schema({
     twitchChannel: {
@@ -114,6 +138,11 @@ let botSchema = new mongoose.Schema({
         of: commandSchema,
         default: {}
     },
+    redemptions: {
+        type: Map,
+        of: redemptionSchema,
+        default: {}
+    },
     alertConfigs: {
         subAlert: {
             type: alertConfigSchema,
@@ -121,7 +150,8 @@ let botSchema = new mongoose.Schema({
                 enabled: false,
                 type: "VIDEO",
                 id: null,
-                messageTemplate: null
+                messageTemplate: null,
+                panel: "default"
             }
         },
         raidAlert: {
@@ -158,6 +188,10 @@ let botSchema = new mongoose.Schema({
     },
     audioPool: {
         type: [audioElementSchema],
+        default: []
+    },
+    imagePool: {
+        type: [imageElementSchema],
         default: []
     }
 })
