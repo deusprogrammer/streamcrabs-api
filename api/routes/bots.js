@@ -582,6 +582,26 @@ router.route("/:id/redemptions")
         }
     });
 
+router.route("/:id/redemptions/:redemptionId")
+    .delete(async (request, response) => {
+        let twitchUser = getAuthenticatedTwitchUserId(request);
+        if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_ADMIN")) {
+            response.status(403);
+            return response.send("Insufficient privileges");
+        }
+
+        try {
+            let bot = await Bots.findOne({twitchChannelId: request.params.id});
+            delete bot[request.params.redemptionId];
+            bot.save();
+            return response.send();
+        } catch (error) {
+            console.error(error);
+            response.status(500);
+            return response.send(error);
+        }
+    });
+
 router.route("/:id/alerts")
     .put(async (request, response) => {
         let twitchUser = getAuthenticatedTwitchUserId(request);
