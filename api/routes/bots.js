@@ -569,9 +569,9 @@ router.route("/:id/redemptions")
         }
 
         try {
-            let bot = await Bots.findOne({twitchChannelId: request.params.id});
-            bot.set("redemptions", request.body);
-            bot.save();
+            let bot = await Bots.findOne({twitchChannelId: request.params.id}).lean();
+            bot.redemptions = request.body;
+            Bots.updateOne({twitchChannelId: request.params.id}, bot);
             return response.send();
         } catch (error) {
             console.error(error);
