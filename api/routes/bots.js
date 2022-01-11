@@ -568,10 +568,12 @@ router.route("/:id/redemptions")
             return response.send("Insufficient privileges");
         }
 
+        console.log("REDEMPTIONS: " + JSON.stringify(request.body, null, 5));
+
         try {
-            let bot = await Bots.findOne({twitchChannelId: request.params.id}).lean();
+            let bot = await Bots.findOne({twitchChannelId: request.params.id});
             bot.redemptions = request.body;
-            Bots.updateOne({twitchChannelId: request.params.id}, bot);
+            bot.save();
             return response.send();
         } catch (error) {
             console.error(error);
