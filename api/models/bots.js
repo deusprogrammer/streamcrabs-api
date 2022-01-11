@@ -71,10 +71,6 @@ let alertConfigSchema = new mongoose.Schema({
 });
 
 let redemptionSchema = new mongoose.Schema({
-    enabled: {
-        type: Boolean,
-        default: false
-    },
     type: String,
     name: String,
     messageTemplate: String,
