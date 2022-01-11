@@ -592,7 +592,7 @@ router.route("/:id/redemptions/:redemptionId")
 
         try {
             let bot = await Bots.findOne({twitchChannelId: request.params.id});
-            delete bot[request.params.redemptionId];
+            delete bot.redemptions[request.params.redemptionId];
             bot.save();
             return response.send();
         } catch (error) {
