@@ -75,6 +75,7 @@ let redemptionSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    type: String,
     name: String,
     messageTemplate: String,
     id: String,
