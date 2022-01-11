@@ -568,31 +568,9 @@ router.route("/:id/redemptions")
             return response.send("Insufficient privileges");
         }
 
-        console.log("REDEMPTIONS: " + JSON.stringify(request.body, null, 5));
-
         try {
             let bot = await Bots.findOne({twitchChannelId: request.params.id});
             bot.redemptions = request.body;
-            bot.save();
-            return response.send();
-        } catch (error) {
-            console.error(error);
-            response.status(500);
-            return response.send(error);
-        }
-    });
-
-router.route("/:id/redemptions/:redemptionId")
-    .delete(async (request, response) => {
-        let twitchUser = getAuthenticatedTwitchUserId(request);
-        if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_ADMIN")) {
-            response.status(403);
-            return response.send("Insufficient privileges");
-        }
-
-        try {
-            let bot = await Bots.findOne({twitchChannelId: request.params.id});
-            delete bot.redemptions[request.params.redemptionId];
             bot.save();
             return response.send();
         } catch (error) {
