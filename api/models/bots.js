@@ -91,6 +91,12 @@ let commandSchema = new mongoose.Schema({
     target: String
 });
 
+let gaugeSchema = new mongoose.Schema({
+    label: String,
+    currentValue: String,
+    maxValue: String
+});
+
 let botSchema = new mongoose.Schema({
     twitchChannel: {
         type: String,
@@ -178,6 +184,11 @@ let botSchema = new mongoose.Schema({
                 messageTemplate: null
             }
         }
+    },
+    gauges: {
+        type: Map,
+        of: gaugeSchema,
+        default: {}
     },
     videoPool: {
         type: [videoElementSchema],
