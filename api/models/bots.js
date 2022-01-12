@@ -93,8 +93,8 @@ let commandSchema = new mongoose.Schema({
 
 let gaugeSchema = new mongoose.Schema({
     label: String,
-    currentValue: String,
-    maxValue: String,
+    currentValue: Number,
+    maxValue: Number,
     increaseSound: String,
     decreaseSound: String,
     completeSound: String
