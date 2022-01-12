@@ -94,7 +94,9 @@ let commandSchema = new mongoose.Schema({
 let gaugeSchema = new mongoose.Schema({
     label: String,
     currentValue: String,
-    maxValue: String
+    maxValue: String,
+    increaseSound: String,
+    decreaseSound: String
 });
 
 let botSchema = new mongoose.Schema({
