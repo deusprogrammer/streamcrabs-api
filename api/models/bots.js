@@ -96,7 +96,8 @@ let gaugeSchema = new mongoose.Schema({
     currentValue: String,
     maxValue: String,
     increaseSound: String,
-    decreaseSound: String
+    decreaseSound: String,
+    completeSound: String
 });
 
 let botSchema = new mongoose.Schema({
