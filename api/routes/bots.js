@@ -583,7 +583,7 @@ router.route("/:id/redemptions")
 router.route("/:id/gauges")
     .put(async (request, response) => {
         let twitchUser = getAuthenticatedTwitchUserId(request);
-        if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_ADMIN")) {
+        if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_ADMIN") && !authenticatedUserHasRole(request, "TWITCH_BOT")) {
             response.status(403);
             return response.send("Insufficient privileges");
         }
