@@ -20,6 +20,10 @@ const raidSchema = new mongoose.Schema({
     twitchChannel: String,
     name: String,
     message: String,
+    direction: {
+        type: String,
+        default: "RIGHT"
+    },
     sprites: [spriteSchema],
     music: soundSchema,
     leavingSound: soundSchema
