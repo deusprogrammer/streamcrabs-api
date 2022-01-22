@@ -93,6 +93,10 @@ let commandSchema = new mongoose.Schema({
 
 let gaugeSchema = new mongoose.Schema({
     label: String,
+    type: {
+        type: String,
+        default: "CUSTOM"
+    },
     currentValue: Number,
     maxValue: Number,
     increaseSound: String,
