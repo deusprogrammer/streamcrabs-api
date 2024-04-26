@@ -1,6 +1,7 @@
-FROM node:18
+FROM node:20
 WORKDIR /app
 COPY package.json /app
+RUN ulimit -h
 RUN npm install
 RUN npm install -g nodemon esm
 COPY . /app
