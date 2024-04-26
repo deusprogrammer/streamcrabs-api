@@ -4,7 +4,6 @@ const Bots = require('../models/bots');
 const axios = require('axios');
 const Configs = require('../models/configs');
 
-import OneTimeKeys from '../models/oneTimeKeys';
 import {authenticatedUserHasRole, getAuthenticatedTwitchUserId} from '../utils/SecurityHelper';
 
 const redirectUrl = "https://deusprogrammer.com/streamcrabs/registration/callback";
@@ -256,14 +255,7 @@ router.route("/")
 router.route("/:id")
     .get(async (request, response) => {
         let twitchUser = getAuthenticatedTwitchUserId(request);
-        let oneTimeKeyId = request.query.oneTimeKey;
-
-        let oneTimeKey = await OneTimeKeys.findOne({oneTimeKey: oneTimeKeyId}).exec();
-        if (oneTimeKey) {
-            await OneTimeKeys.deleteOne({oneTimeKey: oneTimeKeyId}).exec();
-        }
-
-        if (!oneTimeKey && twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_ADMIN") && !authenticatedUserHasRole(request, "TWITCH_BOT")) {
+        if (twitchUser !== request.params.id && !authenticatedUserHasRole(request, "TWITCH_ADMIN") && !authenticatedUserHasRole(request, "TWITCH_BOT")) {
             response.status(403);
             return response.send("Insufficient privileges");
         }

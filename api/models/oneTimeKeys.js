@@ -1,7 +1,7 @@
 var mongoose = require('mongoose')
 
 var oneTimeKey = new mongoose.Schema({
-    accountId: String,
+    twitchChannelId: String,
     oneTimeKey: String
 });
 

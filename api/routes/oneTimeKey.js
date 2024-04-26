@@ -4,7 +4,7 @@ const Bots = require('../models/bots');
 const Configs = require('../models/configs');
 
 import OneTimeKeys from '../models/oneTimeKeys';
-import {authenticatedUserHasRole, getAuthenticatedTwitchUserId} from '../utils/SecurityHelper';
+import {getAuthenticatedTwitchUserId} from '../utils/SecurityHelper';
 
 let router = express.Router();
 
@@ -15,14 +15,14 @@ const randomUuid = () => {
 router.route("/")
     .post(async (request, response) => {
         try {
-            let twitchUser = getAuthenticatedTwitchUserId(request);
-            let oneTimeKey = await OneTimeKeys.create({accountId: twitchUser, oneTimeKey: randomUuid()});
+            let twitchChannelId = getAuthenticatedTwitchUserId(request);
+            let oneTimeKey = await OneTimeKeys.create({twitchChannelId, oneTimeKey: randomUuid()});
             return response.json(oneTimeKey);
         } catch (error) {
             console.error(error);
             response.status(500);
             return response.send(error);
         }
-    })
+    });
 
 module.exports = router;

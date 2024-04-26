@@ -7,6 +7,8 @@ const botRoutes = require('./api/routes/bots');
 const configsRoutes = require('./api/routes/configs');
 const dynamicAlertsRoutes = require('./api/routes/dynamicAlerts');
 const wsAuthRoutes = require('./api/routes/wsAuth');
+const oneTimeKeyRoutes = require('./api/routes/oneTimeKey');
+const migrationRoutes = require('./api/routes/migration');
 
 import {jwtAuthStrategy} from './api/config/passportConfig';
 
@@ -46,7 +48,9 @@ app.use((req, res, next) => {
 /*
  * Routes 
  */
+app.use('/migrations', migrationRoutes);
 app.use('/bots', passport.authenticate("jwt", { session: false }), botRoutes);
+app.use('/one-time-keys', passport.authenticate("jwt", { session: false }), oneTimeKeyRoutes);
 app.use('/configs', passport.authenticate("jwt", { session: false }), configsRoutes);
 app.use('/dynamic-alerts', passport.authenticate("jwt", { session: false }), dynamicAlertsRoutes);
 app.use('/auth/ws', passport.authenticate("jwt", { session: false }), wsAuthRoutes);
