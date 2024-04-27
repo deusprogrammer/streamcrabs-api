@@ -12,7 +12,7 @@ router.route("/:key")
 
         console.log("KEY: " + oneTimeKeyId);
 
-        let oneTimeKey = await OneTimeKeys.findOne({oneTimeKey: oneTimeKeyId}).exec();
+        let oneTimeKey = await OneTimeKeys.findOne({oneTimeKey: oneTimeKeyId}).lean();
 
         console.log("ONE TIME KEY: " + JSON.stringify(oneTimeKey, null, 5));
         
@@ -21,11 +21,11 @@ router.route("/:key")
             return response.send();
         }
         
-        await OneTimeKeys.deleteOne({oneTimeKey: oneTimeKeyId}).exec();
+        await OneTimeKeys.deleteOne({oneTimeKey: oneTimeKeyId}).lean();
 
         let twitchChannelId = oneTimeKey.twitchChannelId;
         try {
-            let bot = await Bots.findOne({twitchChannelId}).exec();
+            let bot = await Bots.findOne({twitchChannelId}).lean();
             let dynamicAlerts = await DynamicAlerts.find({twitchChannel: twitchChannelId}, null, {sort: {name: 1}})
             return response.json({...bot, dynamicAlerts});
         } catch (error) {
