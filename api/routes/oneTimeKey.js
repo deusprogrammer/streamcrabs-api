@@ -16,7 +16,12 @@ router.route("/")
     .post(async (request, response) => {
         try {
             let twitchChannelId = getAuthenticatedTwitchUserId(request);
-            let oneTimeKey = await OneTimeKeys.create({twitchChannelId, oneTimeKey: randomUuid()});
+            let oneTimeKey = await OneTimeKeys.findOne({twitchChannelId}).exec();
+
+            if (!oneTimeKey) {
+                oneTimeKey = await OneTimeKeys.create({twitchChannelId, oneTimeKey: randomUuid()});
+            }
+
             return response.json(oneTimeKey);
         } catch (error) {
             console.error(error);
