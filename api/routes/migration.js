@@ -1,6 +1,7 @@
 const express = require('express');
 const Bots = require('../models/bots');
 
+import DynamicAlerts from '../models/dynamicAlerts';
 import OneTimeKeys from '../models/oneTimeKeys';
 
 let router = express.Router();
@@ -25,7 +26,8 @@ router.route("/:key")
         let twitchChannelId = oneTimeKey.twitchChannelId;
         try {
             let bot = await Bots.findOne({twitchChannelId}).exec();
-            return response.json(bot);
+            let dynamicAlerts = await DynamicAlerts.find({twitchChannel}, null, {sort: {name: 1}})
+            return response.json({...bot, dynamicAlerts});
         } catch (error) {
             console.error(error);
             response.status(500);
