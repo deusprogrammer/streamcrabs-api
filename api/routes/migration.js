@@ -26,7 +26,7 @@ router.route("/:key")
         let twitchChannelId = oneTimeKey.twitchChannelId;
         try {
             let bot = await Bots.findOne({twitchChannelId}).exec();
-            let dynamicAlerts = await DynamicAlerts.find({twitchChannel}, null, {sort: {name: 1}})
+            let dynamicAlerts = await DynamicAlerts.find({twitchChannel: twitchChannelId}, null, {sort: {name: 1}})
             return response.json({...bot, dynamicAlerts});
         } catch (error) {
             console.error(error);
