@@ -16,6 +16,11 @@ router.route("/")
     .post(async (request, response) => {
         try {
             let twitchChannelId = getAuthenticatedTwitchUserId(request);
+
+            if (!twitchChannelId) {
+                throw "No authentication found";
+            }
+
             let oneTimeKey = await OneTimeKeys.findOne({twitchChannelId}).exec();
 
             if (!oneTimeKey) {
